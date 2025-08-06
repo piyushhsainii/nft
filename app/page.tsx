@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Wallet,
   Zap,
   Shield,
   DollarSign,
@@ -13,10 +12,6 @@ import {
   Upload,
   Coins,
   Crown,
-  Moon,
-  Sun,
-  Menu,
-  X,
   Twitter,
   Github,
   MessageCircle,
@@ -24,7 +19,6 @@ import {
   Sparkles,
   TrendingUp,
   Users,
-  Activity,
 } from "lucide-react";
 import Link from "next/link";
 import { FloatingPaths } from "@/components/floating_paths";
@@ -32,7 +26,6 @@ import Header from "@/components/Header";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 export default function SolanaNFTMinting() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mintCount, setMintCount] = useState(12847);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
