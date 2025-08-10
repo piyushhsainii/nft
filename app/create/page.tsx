@@ -244,7 +244,7 @@ export default function CreateNFT() {
       console.log("NFT Public Addrss: ", digitalAsset.mint.publicKey);
       console.log("Mint Public Addrss: ", mint.publicKey);
       setTransactionId(digitalAsset.mint.publicKey);
-      await supabase.from("NFT's").insert({
+      await supabase.from("NFTs").insert({
         name: metadata.name,
         description: metadata.description,
         image: metadataURI.publicUrl,
