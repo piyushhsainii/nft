@@ -1,12 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  resolve: {
-    fullySpecified: false,
-    extensionAlias: {
+  // Other Next.js config options...
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "apneajyhbpncbciasirk.supabase.co",
+      },
+    ],
+  },
+  webpack(config) {
+    config.resolve.fullySpecified = false;
+    config.resolve.extensionAlias = {
       ".js": [".ts", ".js"],
-    },
+    };
+    return config;
   },
 };
 

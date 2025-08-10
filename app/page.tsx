@@ -31,14 +31,6 @@ export default function SolanaNFTMinting() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const wallet = useWallet();
 
-  // Simulate live mint counter
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMintCount((prev) => prev + Math.floor(Math.random() * 3));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   // Add this useEffect after the existing useEffect
   useEffect(() => {
     // Apply theme class to document
@@ -102,45 +94,15 @@ export default function SolanaNFTMinting() {
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-purple-500 text-purple-300 hover:bg-purple-500/10 text-lg px-8 py-6 bg-transparent"
-              >
-                View Gallery
-              </Button>
-            </div>
-
-            {/* Live Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-              <Card className="bg-black/40 border-purple-500/30 backdrop-blur-sm">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-green-400">
-                    {mintCount.toLocaleString()}
-                  </div>
-                  <div className="text-sm text-gray-400">NFTs Minted</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-black/40 border-purple-500/30 backdrop-blur-sm">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-purple-400">5.2K</div>
-                  <div className="text-sm text-gray-400">Creators</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-black/40 border-purple-500/30 backdrop-blur-sm">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-green-400">$0.01</div>
-                  <div className="text-sm text-gray-400">Avg Fee</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-black/40 border-purple-500/30 backdrop-blur-sm">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-purple-400">
-                    99.9%
-                  </div>
-                  <div className="text-sm text-gray-400">Uptime</div>
-                </CardContent>
-              </Card>
+              <Link href={"/my-nft"}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-purple-500 text-purple-300 hover:bg-purple-500/10 text-lg px-8 py-6 bg-transparent"
+                >
+                  View Gallery
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -474,19 +436,19 @@ export default function SolanaNFTMinting() {
               <h4 className="text-white font-semibold mb-4">Community</h4>
               <div className="flex space-x-4">
                 <Link
-                  href="#"
+                  href="https://x.com/piyushsainii"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Twitter className="h-6 w-6" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://x.com/piyushsainii"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <MessageCircle className="h-6 w-6" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://github.com/piyushhsainii"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Github className="h-6 w-6" />
@@ -498,6 +460,12 @@ export default function SolanaNFTMinting() {
           <div className="border-t border-purple-500/20 mt-8 pt-8 text-center">
             <p className="text-gray-400">
               © 2024 SolMint. All rights reserved. Built on Solana.
+            </p>
+            <p className="text-gray-400">
+              {" "}
+              developed by <a href="https://x.com/piyushsainii">
+                @piyushsaini
+              </a>{" "}
             </p>
           </div>
         </div>

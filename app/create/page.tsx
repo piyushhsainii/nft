@@ -46,9 +46,9 @@ import {
 } from "@metaplex-foundation/mpl-token-metadata";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { generateSigner, percentAmount } from "@metaplex-foundation/umi";
-
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { supabase } from "@/lib/supabase";
+
 interface Attribute {
   trait_type: string;
   value: string;
@@ -61,7 +61,7 @@ interface NFTMetadata {
   image: File | null;
   file: Uint8Array | null;
   attributes: Attribute[];
-  royalty: string;
+  royalty: string | null;
 }
 
 type MintingStep =
@@ -80,7 +80,7 @@ export default function CreateNFT() {
     image: null,
     file: null,
     attributes: [{ trait_type: "", value: "" }],
-    royalty: "5",
+    royalty: null,
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -210,6 +210,7 @@ export default function CreateNFT() {
         image: publicURL.publicUrl, // URL of the image uploaded to Supabase
         symbol: metadata.symbol,
         attributes: metadata.attributes,
+        sellerFeeBasisPoints: metadata.royalty,
       };
       const jsonBlob = new Blob([JSON.stringify(metadataJson)], {
         type: "application/json",
@@ -243,6 +244,15 @@ export default function CreateNFT() {
       console.log("NFT Public Addrss: ", digitalAsset.mint.publicKey);
       console.log("Mint Public Addrss: ", mint.publicKey);
       setTransactionId(digitalAsset.mint.publicKey);
+      await supabase.from("NFT's").insert({
+        name: metadata.name,
+        description: metadata.description,
+        image: metadataURI.publicUrl,
+        attributes: JSON.stringify(metadata.attributes),
+        transactionId: digitalAsset.mint.publicKey.toString(),
+        royalty: metadata.royalty,
+        wallet_address: wallet.publicKey,
+      });
       setMintingStep("success");
     } catch (error) {
       console.log(error, "errrrror");
@@ -267,7 +277,7 @@ export default function CreateNFT() {
       <MintSuccessCard
         copyTransactionId={copyTransactionId}
         imagePreview={imagePreview!}
-        metadata={metadata}
+        metadata={metadata ?? "0"}
         resetForm={resetForm}
         transactionId={transactionId}
       />
@@ -285,6 +295,15 @@ export default function CreateNFT() {
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
+          </Link>
+          <Link
+            href="/my-nft"
+            className="inline-flex items-center text-gray-400 hover:text-white mb-4 mx-5"
+          >
+            <Button>
+              <Zap className="mr-2 h-4 w-4" />
+              My NFT's
+            </Button>
           </Link>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
             Create Your NFT
@@ -591,19 +610,19 @@ export default function CreateNFT() {
                     </TooltipProvider>
                   </div>
                   <Select
-                    value={metadata.royalty}
+                    value={metadata.royalty ?? JSON.stringify(0)}
                     onValueChange={(value) =>
                       setMetadata((prev) => ({ ...prev, royalty: value }))
                     }
                   >
-                    <SelectTrigger className="bg-black/50 border-gray-600 text-white">
+                    <SelectTrigger className=" border-gray-600 text-white">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-black border-gray-600">
+                    <SelectContent className=" border-gray-600">
                       {[0, 2.5, 5, 7.5, 10].map((percentage) => (
                         <SelectItem
                           key={percentage}
-                          value={percentage.toString()}
+                          value={(percentage * 100).toString()}
                         >
                           {percentage}%
                         </SelectItem>
@@ -700,7 +719,10 @@ export default function CreateNFT() {
               {/* Mint Button */}
               <Button
                 onClick={handleNFTCreation}
-                disabled={mintingStep !== "idle" && mintingStep !== "error"}
+                disabled={
+                  (mintingStep !== "idle" && mintingStep !== "error") ||
+                  wallet.connected == false
+                }
                 className="w-full bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white text-lg py-6"
               >
                 {mintingStep === "idle" || mintingStep === "error" ? (

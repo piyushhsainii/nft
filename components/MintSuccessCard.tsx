@@ -1,6 +1,13 @@
 import React from "react";
 import { Card, CardContent } from "./ui/card";
-import { ArrowLeft, Check, Copy, ExternalLink, Share2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Copy,
+  ExternalLink,
+  Share2,
+  View,
+} from "lucide-react";
 import Image from "next/image";
 import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
@@ -18,7 +25,7 @@ interface NFTMetadata {
   description: string;
   image: File | null;
   attributes: Attribute[];
-  royalty: string;
+  royalty: string | null;
 }
 
 const MintSuccessCard = ({
@@ -142,16 +149,15 @@ const MintSuccessCard = ({
             <ExternalLink className="mr-2 h-4 w-4" />
             View on Solscan
           </Button>
-          <Button
-            onClick={() => {
-              toast("Copied link to clipboard");
-            }}
-            variant="outline"
-            className="border-teal-500 text-teal-400 hover:bg-teal-500/10 flex-1 bg-transparent hover:text-white cursor-pointer"
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Share NFT
-          </Button>
+          <Link href={"/my-nft"} className="w-[50%]">
+            <Button
+              variant="outline"
+              className="border-teal-500 text-teal-400 hover:bg-teal-500/10 flex-1 bg-transparent hover:text-white cursor-pointer w-full"
+            >
+              <View className="mr-2 h-4 w-4" />
+              View in Gallery
+            </Button>
+          </Link>
         </div>
 
         {/* Navigation */}
